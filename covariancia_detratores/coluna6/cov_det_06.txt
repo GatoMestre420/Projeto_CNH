@@ -1,0 +1,54 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Função principal para calcular covariância e gerar gráficos
+def calcular_covariancia_gerar_grafico(nota, facilidade_para_realizacao_de_manutencoes_csat):
+    # Garantir que os dois vetores tenham o mesmo tamanho, preenchendo com zeros
+    tamanho_maximo = max(len(nota), len(facilidade_para_realizacao_de_manutencoes_csat))
+    nota = np.pad(nota, (0, tamanho_maximo - len(nota)), 'constant', constant_values=0)
+    facilidade_para_realizacao_de_manutencoes_csat = np.pad(facilidade_para_realizacao_de_manutencoes_csat, (0, tamanho_maximo - len(facilidade_para_realizacao_de_manutencoes_csat)), 'constant', constant_values=0)
+    
+    # Cálculo da covariância
+    cov_matrix = np.cov(nota, facilidade_para_realizacao_de_manutencoes_csat, bias=True)  # bias=True para cálculo populacional
+    covariancia = cov_matrix[0, 1]
+    
+    # Cálculo do coeficiente de correlação
+    coeficiente_corr = np.corrcoef(nota, facilidade_para_realizacao_de_manutencoes_csat)[0, 1]
+    
+    # Exibindo os resultados
+    print(f"Covariância: {covariancia:.2f}")
+    print(f"Coeficiente de Correlação: {coeficiente_corr:.2f}")
+    
+    # Gerar o gráfico
+    plt.figure(figsize=(10, 6))
+    plt.scatter(nota, facilidade_para_realizacao_de_manutencoes_csat, color='blue', label='Dados')
+    plt.axhline(y=np.mean(facilidade_para_realizacao_de_manutencoes_csat), color='red', linestyle='--', label='facilidade_para_realizacao_de_manutencoes_csat')
+    plt.axvline(x=np.mean(nota), color='green', linestyle='--', label='Média Nota')
+    plt.title("Dispersão dos Dados com Covariância")
+    plt.xlabel("Nota")
+    plt.ylabel("Facilidade para realização de manutenções")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+# Exemplo de uso
+if __name__ == "__main__":
+    # Insira seus próprios dados aqui
+   Nota = [
+  3, 6, 4, 0, 6, 5, 0, 6, 0, 6, 6, 4, 5, 5, 1, 1, 0, 0, 5, 0, 5, 0, 5, 5, 
+  2, 5, 1, 5, 5, 4, 0, 4, 0, 0, 6, 2, 2, 5, 4, 3, 5, 4, 0, 0, 6, 1, 0, 1, 
+  2, 5, 2, 0, 1, 1, 0, 0, 4, 0, 0, 0, 1, 0, 5, 0, 5, 5, 5, 5, 6, 6, 6, 5, 
+  5, 0, 0, 5, 3, 1, 2, 2, 6, 4, 0, 6, 0, 6, 0, 0, 4, 2, 0, 5, 5, 6, 5, 3, 
+  0, 5, 6, 5, 0, 0, 5, 3, 0, 5, 6, 6, 6, 6, 5, 3, 1, 6, 6, 3, 5, 2, 6, 5, 
+  1, 5, 5, 6, 5, 5, 5, 5, 0, 2, 5, 4, 3, 6, 0, 0, 3, 6, 6, 6, 5, 5, 0, 1, 
+  5, 5, 5, 2, 0, 4, 1, 6, 5, 5, 1, 3, 0, 5, 3, 6, 0
+   ]
+facilidade_para_realizacao_de_manutencoes_csat = [
+    3, 2, 4, 6, 2, 1, 0, 7, 0, 4, 6, 8, 5, 0, 1, 0, 0, 9, 9, 5, 0, 6, 3, 0, 7, 1, 8, 5, 7, 0, 4, 0, 0, 2,
+    3, 7, 0, 5, 5, 0, 1, 5, 0, 0, 0, 1, 3, 7, 8, 0, 1, 0, 4, 7, 0, 0, 0, 5, 0, 6, 0, 2, 4, 1, 8, 5, 7, 6,
+    5, 4, 0, 4, 4, 7, 0, 5, 0, 10, 7, 0, 8, 5, 0, 4, 6, 8, 2, 6, 2, 8, 0, 0, 5, 6, 5, 2, 0, 8, 2, 8, 2, 7,
+    4, 9, 5, 8, 10, 2, 8, 4, 5, 8, 6, 3, 8, 0, 2, 5, 9, 9, 8, 4, 7, 0, 9, 8, 8, 3, 8, 0, 1, 8, 9, 10, 8, 10,
+    8, 5, 8, 1, 8, 8, 3, 4, 2, 8, 6, 1, 0, 0, 10, 4, 6, 9
+]
+    
+calcular_covariancia_gerar_grafico(nota, facilidade_para_realizacao_de_manutencoes_csat)

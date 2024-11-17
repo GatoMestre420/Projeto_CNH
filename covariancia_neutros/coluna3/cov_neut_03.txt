@@ -1,0 +1,61 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Dados fornecidos
+facilidade_operacao = [
+    8, 8, 8, 9, 8, 5, 9, 9, 8, 8, 8, 8, 7, 10, 10, 10, 10, 4, 6, 5, 8, 8, 10, 7, 10, 10, 7, 8, 8, 10, 
+    8, 10, 10, 9, 9, 9, 8, 7, 9, 7, 9, 7, 7, 8, 5, 8, 6, 10, 9, 8, 8, 8, 8, 10, 8, 6, 7, 5, 7, 10, 9, 
+    8, 7, 10, 8, 5, 8, 10, 10, 10, 8, 10, 9, 9, 10, 9, 7, 7, 9, 7, 8, 5, 10, 8, 10, 9, 9, 8, 8, 5, 10, 
+    8, 10, 10, 9, 9, 7, 10, 9, 9, 7, 9, 10, 7, 10, 8, 10, 8, 8, 8, 10, 10, 10, 7, 10, 8, 10, 10, 9, 8, 
+    7, 5, 8, 8, 9, 7, 7, 5, 9, 7, 8, 9, 7, 7, 8, 10, 6, 7, 8, 8, 10, 7, 8, 10, 10, 8, 9, 10, 9, 7, 10, 
+    8, 8, 8, 9, 10, 8, 10, 9, 9, 10, 8, 10, 10, 10, 9, 10, 9, 9, 10, 8, 10, 8, 6, 7, 8, 7, 10, 8, 10, 7, 
+    8, 10, 8, 9, 9, 8, 10, 10, 10, 8, 8, 9, 8, 10, 10, 8, 10, 5, 9, 5, 10, 9, 7, 8, 10, 10, 7, 8, 7, 9, 
+    7, 8, 8, 10, 8, 10, 8, 8, 8, 8, 10, 7, 10, 10, 9, 10, 5, 8, 10, 10, 10, 9, 10, 8, 10, 10, 10, 10, 10, 
+    10, 4, 6, 8, 10, 10, 9, 8, 10, 8, 9, 7, 8, 9, 8, 5, 9, 9, 9, 10, 10, 10, 10, 9, 10, 10, 9, 9, 8, 7, 
+    10, 7, 8, 7, 10, 8, 8, 7, 8, 7, 7, 5, 9, 7, 9, 8, 7, 10, 8, 10, 8, 10, 10
+]
+
+notas = [
+    8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 7, 
+    8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 7, 8, 7, 8, 8, 7, 7, 8, 8, 8, 8, 8, 8, 
+    8, 8, 8, 8, 8, 7, 8, 7, 8, 7, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 7, 7, 8, 8, 
+    8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 7, 8, 7, 8, 7, 
+    8, 8, 8, 7, 7, 8, 8, 8, 8, 8, 8, 8, 7, 7, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 
+    7, 8, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 
+    8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 7, 8, 8, 8, 8, 8, 
+    8, 7, 8, 8, 8, 7, 8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 
+    7, 8, 8, 8, 8, 8, 8, 7, 8, 8, 8, 7, 8, 8, 8, 7, 8, 8, 7, 8, 8, 8, 7, 8, 
+    8, 8, 8, 7, 8, 8, 8, 8, 8, 7, 7, 8, 7, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 7, 
+    8, 8, 7, 7, 7, 8, 8, 8, 8, 7, 8, 7, 8, 7, 8, 8, 8, 8, 7, 8, 7, 8
+]
+
+# Preencher o array menor com zeros para igualar os tamanhos
+tamanho_maximo = max(len(facilidade_operacao), len(notas))
+
+# Usar np.pad para preencher os arrays com zeros
+facilidade_operacao = np.pad(facilidade_operacao, (0, tamanho_maximo - len(facilidade_operacao)), mode='constant')
+notas = np.pad(notas, (0, tamanho_maximo - len(notas)), mode='constant')
+
+# Calcular a covariância entre as duas listas
+covariancia = np.cov(facilidade_operacao, notas)[0][1]
+
+# Calcular os desvios padrão
+desvio_padrao_facilidade = np.std(facilidade_operacao)
+desvio_padrao_notas = np.std(notas)
+
+# Calcular o coeficiente de correlação
+coeficiente_correlacao = covariancia / (desvio_padrao_facilidade * desvio_padrao_notas)
+
+# Exibir os resultados
+print(f"Covariância: {covariancia}")
+print(f"Coeficiente de Correlação: {coeficiente_correlacao}")
+
+# Gerar o gráfico de dispersão
+plt.figure(figsize=(8, 6))
+plt.scatter(facilidade_operacao, notas, label=f'Covariância: {covariancia:.2f}\nCoef. Corr.: {coeficiente_correlacao:.2f}', color='blue', alpha=0.6)
+plt.title('Gráfico de Dispersão: Facilidade de Operação x Notas')
+plt.xlabel('Facilidade de Operação')
+plt.ylabel('Notas')
+plt.grid(True)
+plt.legend()
+plt.show()

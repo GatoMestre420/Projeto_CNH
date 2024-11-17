@@ -1,0 +1,65 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Função principal para calcular covariância e gerar gráficos
+def calcular_covariancia_gerar_grafico(nota, capacidade_operacional_csat):
+    # Garantir que os dois vetores tenham o mesmo tamanho, preenchendo com zeros
+    tamanho_maximo = max(len(nota), len(capacidade_operacional_csat))
+    nota = np.pad(nota, (0, tamanho_maximo - len(nota)), 'constant', constant_values=0)
+    capacidade_operacional_csat = np.pad(capacidade_operacional_csat, (0, tamanho_maximo - len(capacidade_operacional_csat)), 'constant', constant_values=0)
+    
+    # Cálculo da covariância
+    cov_matrix = np.cov(nota, capacidade_operacional_csat, bias=True)  # bias=True para cálculo populacional
+    covariancia = cov_matrix[0, 1]
+    
+    # Cálculo do coeficiente de correlação
+    coeficiente_corr = np.corrcoef(nota, capacidade_operacional_csat)[0, 1]
+    
+    # Exibindo os resultados
+    print(f"Covariância: {covariancia:.2f}")
+    print(f"Coeficiente de Correlação: {coeficiente_corr:.2f}")
+    
+    # Gerar o gráfico
+    plt.figure(figsize=(10, 6))
+    plt.scatter(nota, capacidade_operacional_csat, color='blue', label='Dados')
+    plt.axhline(y=np.mean(capacidade_operacional_csat), color='red', linestyle='--', label='Média capacidade_operacional_csat')
+    plt.axvline(x=np.mean(nota), color='green', linestyle='--', label='Média nota')
+    plt.title("Dispersão dos Dados com Covariância")
+    plt.xlabel("Nota")
+    plt.ylabel("Capacidade Operacional (CSAT)")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+# Exemplo de uso
+if __name__ == "__main__":
+    # Insira seus próprios dados aqui
+    nota = [
+        8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 7, 
+        8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 7, 8, 7, 8, 8, 7, 7, 8, 8, 8, 8, 8, 8, 
+        8, 8, 8, 8, 8, 8, 7, 8, 7, 8, 7, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 7, 7, 8, 
+        8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 7, 8, 7, 8, 
+        7, 8, 8, 8, 7, 7, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 
+        8, 7, 8, 7, 8, 8, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 7, 7, 8, 8, 8, 8, 8, 8, 
+        8, 7, 8, 8, 7, 8, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 
+        8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 7, 8, 8, 
+        8, 8, 8, 8, 7, 8, 8, 8, 7, 8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 
+        8, 7, 7, 8, 8, 8, 8, 8, 8, 7, 8, 8, 8, 7, 8, 8, 8, 7, 8, 8, 7, 8, 8, 8, 
+        7, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 7, 7, 8, 7, 8, 8, 8, 8, 7, 8, 8, 8, 8, 
+        8, 7, 8, 8, 7, 7, 7, 8, 8, 8, 8, 7, 8, 7, 8, 7, 8, 8, 8, 8, 8, 8, 8, 8, 
+        8, 8, 8, 7, 7
+    ]
+    capacidade_operacional_csat = [
+        8, 8, 7, 8, 8, 5, 8, 9, 8, 8, 5, 8, 7, 7, 8, 9, 8, 8, 3, 1, 8, 8, 10, 8, 7, 8, 8, 10, 8, 10, 
+        10, 8, 5, 9, 5, 7, 8, 5, 8, 8, 7, 8, 5, 8, 9, 8, 7, 8, 9, 8, 10, 8, 8, 7, 8, 8, 7, 8, 4, 8, 
+        5, 10, 8, 7, 4, 8, 10, 8, 5, 8, 8, 8, 7, 2, 8, 7, 9, 7, 6, 8, 8, 9, 8, 6, 4, 6, 9, 2, 10, 5, 
+        8, 10, 9, 7, 5, 2, 8, 7, 7, 8, 8, 8, 8, 8, 8, 10, 10, 8, 10, 6, 8, 6, 10, 10, 10, 8, 10, 8, 8, 
+        5, 7, 7, 8, 7, 9, 8, 10, 8, 7, 10, 8, 8, 7, 7, 8, 8, 8, 8, 8, 10, 9, 7, 7, 9, 6, 7, 7, 7, 9, 
+        7, 10, 8, 9, 8, 9, 8, 7, 10, 10, 9, 10, 10, 8, 7, 8, 8, 8, 8, 8, 8, 10, 10, 8, 8, 8, 9, 10, 8, 
+        8, 9, 8, 8, 2, 8, 8, 8, 8, 8, 8, 4, 8, 9, 5, 1, 10, 8, 8, 8, 10, 8, 7, 8, 7, 8, 9, 8, 8, 9, 
+        10, 9, 7, 8, 8, 6, 7, 9, 9, 7, 10, 5, 8, 10, 10, 9, 10, 8, 10, 10, 9, 10, 10, 10, 6, 8, 8, 10, 
+        10, 8, 8, 10, 8, 8, 8, 10, 8, 8, 7, 8, 9, 10, 9, 10, 9, 10, 10, 9, 10, 8, 8, 10, 1, 10, 6, 8, 
+        6, 7, 8, 8, 7, 8, 7, 7, 8, 9, 7, 6, 9, 9, 10, 8, 10, 9, 9, 7
+    ]
+    
+    calcular_covariancia_gerar_grafico(nota, capacidade_operacional_csat)

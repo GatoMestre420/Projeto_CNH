@@ -1,0 +1,64 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Dados
+notas = [
+    8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 7, 
+    8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 7, 8, 7, 8, 8, 7, 7, 8, 8, 8, 8, 8, 8, 
+    8, 8, 8, 8, 8, 7, 8, 7, 8, 7, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 7, 7, 8, 8, 
+    8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 7, 8, 7, 8, 7, 
+    8, 8, 8, 7, 7, 8, 8, 8, 8, 8, 8, 8, 7, 7, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 
+    7, 8, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 
+    8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 7, 8, 8, 8, 8, 8, 
+    8, 7, 8, 8, 8, 7, 8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 
+    7, 8, 8, 8, 8, 8, 8, 7, 8, 8, 8, 7, 8, 8, 8, 7, 8, 8, 7, 8, 8, 8, 7, 8, 
+    8, 8, 8, 7, 8, 8, 8, 8, 8, 7, 7, 8, 7, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 7, 
+    8, 8, 7, 7, 7, 8, 8, 8, 8, 7, 8, 7, 8, 7, 8, 8, 8, 8, 7, 8, 7, 8
+]
+
+adequacao_operacao = [
+    8, 8, 7, 9, 8, 5, 8, 9, 7, 8, 3, 8, 7, 8, 8, 5, 9, 5, 6, 4, 8, 8, 10, 3,
+    8, 8, 8, 10, 8, 10, 7, 7, 7, 10, 5, 8, 7, 2, 8, 8, 9, 9, 6, 8, 7, 8, 8, 7,
+    9, 8, 9, 9, 8, 10, 8, 5, 7, 5, 7, 8, 8, 8, 4, 7, 1, 8, 9, 8, 7, 8, 10, 10,
+    8, 8, 8, 8, 7, 8, 8, 8, 10, 10, 8, 10, 8, 8, 10, 8, 8, 10, 6, 8, 10, 9, 8,
+    8, 10, 9, 7, 7, 7, 8, 5, 10, 9, 8, 10, 8, 8, 6, 8, 7, 10, 10, 10, 9, 9, 8,
+    9, 5, 7, 5, 8, 7, 5, 1, 9, 8, 10, 8, 7, 9, 8, 10, 8, 7, 8, 7, 10, 7, 8, 9,
+    10, 5, 5, 9, 9, 9, 8, 8, 7, 6, 5, 8, 8, 8, 8, 7, 10, 8, 9, 10, 10, 9, 10,
+    10, 7, 9, 5, 4, 8, 9, 5, 8, 7, 10, 10, 9, 6, 9, 8, 8, 9, 9, 8, 9, 10, 9, 8,
+    8, 9, 6, 8, 6, 8, 10, 6, 8, 9, 10, 8, 8, 8, 10, 8, 7, 8, 8, 9, 8, 9, 8, 8,
+    8, 10, 7, 8, 8, 6, 8, 6, 9, 10, 10, 3, 8, 10, 10, 10, 9, 10, 8, 10, 9, 9,
+    10, 10, 9, 7, 8, 8, 10, 9, 8, 10, 7, 6, 8, 7, 7, 8, 0, 9, 8, 10, 8, 7, 10,
+    10, 10, 10, 5, 8, 8, 8, 7, 6, 8, 4, 7, 10, 8, 7, 8, 9, 7, 8, 9, 8, 4, 8,
+    9, 10, 8, 10, 6, 9, 7
+]
+
+# Preencher o array menor com zeros para igualar os tamanhos
+tamanho_maximo = max(len(adequacao_operacao), len(notas))
+
+# Usar np.pad para preencher os arrays com zeros
+adequacao_operacao = np.pad(adequacao_operacao, (0, tamanho_maximo - len(adequacao_operacao)), mode='constant')
+notas = np.pad(notas, (0, tamanho_maximo - len(notas)), mode='constant')
+
+# Calcular a covariância entre as duas listas
+covariancia = np.cov(adequacao_operacao, notas)[0][1]
+
+# Calcular os desvios padrão
+desvio_padrao_adequacao = np.std(adequacao_operacao)
+desvio_padrao_notas = np.std(notas)
+
+# Calcular o coeficiente de correlação
+coeficiente_correlacao = covariancia / (desvio_padrao_adequacao * desvio_padrao_notas)
+
+# Exibir os resultados
+print(f"Covariância: {covariancia}")
+print(f"Coeficiente de Correlação: {coeficiente_correlacao}")
+
+# Gerar o gráfico de dispersão
+plt.figure(figsize=(8, 6))
+plt.scatter(adequacao_operacao, notas, label=f'Covariância: {covariancia:.2f}\nCoef. Corr.: {coeficiente_correlacao:.2f}', color='blue', alpha=0.6)
+plt.title('Gráfico de Dispersão: Adequação de Operação x Notas')
+plt.xlabel('Adequação de Operação')
+plt.ylabel('Notas')
+plt.grid(True)
+plt.legend()
+plt.show()

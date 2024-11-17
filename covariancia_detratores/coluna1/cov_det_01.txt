@@ -1,0 +1,54 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Função principal para calcular covariância e gerar gráficos
+def calcular_covariancia_gerar_grafico(nota, capacidade_operacional_hectares_por_hora_csat):
+    # Garantir que os dois vetores tenham o mesmo tamanho, preenchendo com zeros
+    tamanho_maximo = max(len(nota), len(capacidade_operacional_hectares_por_hora_csat))
+    nota = np.pad(nota, (0, tamanho_maximo - len(nota)), 'constant', constant_values=0)
+    capacidade_operacional_hectares_por_hora_csat = np.pad(capacidade_operacional_hectares_por_hora_csat, (0, tamanho_maximo - len(capacidade_operacional_hectares_por_hora_csat)), 'constant', constant_values=0)
+    
+    # Cálculo da covariância
+    cov_matrix = np.cov(nota, capacidade_operacional_hectares_por_hora_csat, bias=True)  # bias=True para cálculo populacional
+    covariancia = cov_matrix[0, 1]
+    
+    # Cálculo do coeficiente de correlação
+    coeficiente_corr = np.corrcoef(nota, capacidade_operacional_hectares_por_hora_csat)[0, 1]
+    
+    # Exibindo os resultados
+    print(f"Covariância: {covariancia:.2f}")
+    print(f"Coeficiente de Correlação: {coeficiente_corr:.2f}")
+    
+    # Gerar o gráfico
+    plt.figure(figsize=(10, 6))
+    plt.scatter(nota, capacidade_operacional_hectares_por_hora_csat, color='blue', label='Dados')
+    plt.axhline(y=np.mean(capacidade_operacional_hectares_por_hora_csat), color='red', linestyle='--', label='capacidade_operacional_hectares_por_hora_csat')
+    plt.axvline(x=np.mean(nota), color='green', linestyle='--', label='Média Nota')
+    plt.title("Dispersão dos Dados com Covariância")
+    plt.xlabel("Nota")
+    plt.ylabel("Adaptabilidade de Trabalho")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+# Exemplo de uso
+if __name__ == "__main__":
+    # Insira seus próprios dados aqui
+   Nota = [
+  3, 6, 4, 0, 6, 5, 0, 6, 0, 6, 6, 4, 5, 5, 1, 1, 0, 0, 5, 0, 5, 0, 5, 5, 
+  2, 5, 1, 5, 5, 4, 0, 4, 0, 0, 6, 2, 2, 5, 4, 3, 5, 4, 0, 0, 6, 1, 0, 1, 
+  2, 5, 2, 0, 1, 1, 0, 0, 4, 0, 0, 0, 1, 0, 5, 0, 5, 5, 5, 5, 6, 6, 6, 5, 
+  5, 0, 0, 5, 3, 1, 2, 2, 6, 4, 0, 6, 0, 6, 0, 0, 4, 2, 0, 5, 5, 6, 5, 3, 
+  0, 5, 6, 5, 0, 0, 5, 3, 0, 5, 6, 6, 6, 6, 5, 3, 1, 6, 6, 3, 5, 2, 6, 5, 
+  1, 5, 5, 6, 5, 5, 5, 5, 0, 2, 5, 4, 3, 6, 0, 0, 3, 6, 6, 6, 5, 5, 0, 1, 
+  5, 5, 5, 2, 0, 4, 1, 6, 5, 5, 1, 3, 0, 5, 3, 6, 0
+   ]
+capacidade_operacional_hectares_por_hora_csat = [
+    2, 7, 5, 7, 6, 7, 6, 6, 0, 2, 8, 2, 5, 7, 0, 5, 1, 10, 5, 0, 2, 8, 2, 6, 5, 8, 3, 3, 1, 3, 5,
+    2, 5, 5, 9, 7, 5, 2, 2, 6, 7, 0, 1, 3, 4, 9, 7, 3, 5, 1, 6, 7, 10, 0, 0, 1, 5, 6, 9, 5, 7, 5, 5,
+    8, 5, 7, 7, 7, 2, 4, 4, 4, 1, 5, 6, 7, 4, 3, 8, 0, 7, 0, 1, 6, 2, 8, 8, 7, 8, 6, 3, 0, 5, 9, 7,
+    8, 3, 3, 0, 7, 4, 6, 6, 9, 10, 8, 2, 6, 5, 4, 5, 5, 5, 0, 7, 10, 8, 8, 8, 7, 0, 8, 7, 5, 7, 6, 9,
+    7, 6, 9, 8, 9, 8, 10, 8, 10, 5, 7, 9, 5, 5, 8, 6, 8, 1, 6, 5, 7, 6
+]
+    
+calcular_covariancia_gerar_grafico(nota, capacidade_operacional_hectares_por_hora_csat)

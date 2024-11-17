@@ -1,0 +1,65 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Função principal para calcular covariância e gerar gráficos
+def calcular_covariancia_gerar_grafico(nota,  geracao_e_transmissao_de_dados_para_gestao_da_frota):
+    # Garantir que os dois vetores tenham o mesmo tamanho, preenchendo com zeros
+    tamanho_maximo = max(len(nota), len( geracao_e_transmissao_de_dados_para_gestao_da_frota))
+    nota = np.pad(nota, (0, tamanho_maximo - len(nota)), 'constant', constant_values=0)
+    geracao_e_transmissao_de_dados_para_gestao_da_frota = np.pad( geracao_e_transmissao_de_dados_para_gestao_da_frota, (0, tamanho_maximo - len( geracao_e_transmissao_de_dados_para_gestao_da_frota)), 'constant', constant_values=0)
+    
+    # Cálculo da covariância
+    cov_matrix = np.cov(nota,  geracao_e_transmissao_de_dados_para_gestao_da_frota, bias=True)  # bias=True para cálculo populacional
+    covariancia = cov_matrix[0, 1]
+    
+    # Cálculo do coeficiente de correlação
+    coeficiente_corr = np.corrcoef(nota,  geracao_e_transmissao_de_dados_para_gestao_da_frota)[0, 1]
+    
+    # Exibindo os resultados
+    print(f"Covariância: {covariancia:.2f}")
+    print(f"Coeficiente de Correlação: {coeficiente_corr:.2f}")
+    
+    # Gerar o gráfico
+    plt.figure(figsize=(10, 6))
+    plt.scatter(nota,  geracao_e_transmissao_de_dados_para_gestao_da_frota, color='blue', label='Dados')
+    plt.axhline(y=np.mean( geracao_e_transmissao_de_dados_para_gestao_da_frota), color='red', linestyle='--', label='Média  geracao_e_transmissao_de_dados_para_gestao_da_frota')
+    plt.axvline(x=np.mean(nota), color='green', linestyle='--', label='Média nota')
+    plt.title("Dispersão dos Dados com Covariância")
+    plt.xlabel("Nota")
+    plt.ylabel("Geração trasmissão de dados para gestão de Frota")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+
+# Exemplo de uso
+if __name__ == "__main__":
+    # Insira seus próprios dados aqui
+      nota = [
+      8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 7, 
+      8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 7, 8, 7, 8, 8, 7, 7, 8, 8, 8, 8, 8, 8, 
+      8, 8, 8, 8, 8, 7, 8, 7, 8, 7, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 7, 7, 8, 
+      8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 7, 8, 7, 8, 
+      7, 8, 8, 8, 7, 7, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 
+      8, 7, 8, 7, 8, 8, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 7, 7, 8, 8, 8, 8, 8, 8, 
+      8, 7, 8, 8, 7, 8, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 
+      8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 7, 8, 8, 
+      8, 8, 8, 8, 7, 8, 8, 8, 7, 8, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 
+      8, 7, 7, 8, 8, 8, 8, 8, 8, 7, 8, 8, 8, 7, 8, 8, 8, 7, 8, 8, 7, 8, 8, 8, 
+      7, 8, 8, 8, 8, 7, 8, 8, 8, 8, 8, 7, 7, 8, 7, 8, 8, 8, 8, 7, 8, 8, 8, 8, 
+      8, 7, 8, 8, 7, 7, 7, 8, 8, 8, 8, 7, 8, 7, 8, 7, 8, 8, 8, 8, 8, 8, 8, 8, 
+      8, 8, 8, 7, 7, 7
+    ]
+  
+geracao_e_transmissao_de_dados_para_gestao_da_frota = [
+    8, 7, 9, 8, 6, 6, 9, 7, 8, 3, 8, 7, 10, 0, 4, 
+    5, 8, 7, 8, 0, 6, 9, 10, 5, 0, 0, 9, 6, 8, 7, 0, 
+    5, 8, 7, 8, 8, 1, 5, 6, 0, 10, 8, 10, 7, 1, 10, 0, 
+    8, 9, 8, 6, 3, 8, 10, 8, 10, 0, 0, 10, 8, 8, 7, 9, 
+    8, 9, 6, 10, 0, 5, 7, 0, 2, 8, 8, 8, 8, 5, 8, 8, 
+    8, 4, 7, 7, 8, 8, 9, 7, 5, 8, 0, 10, 8, 8, 8, 9, 
+    9, 10, 7, 5, 0, 9, 5, 9, 7, 8, 9, 10, 0, 8, 8, 0, 
+    0, 7, 7, 9, 9, 9, 10, 9, 9, 8, 6, 8, 8, 7, 8, 7, 
+    7, 8, 10, 10, 8, 10
+]
+
+calcular_covariancia_gerar_grafico(nota,  geracao_e_transmissao_de_dados_para_gestao_da_frota)
